@@ -36,7 +36,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  
                   children: [
                     Expanded(
                       child: Image.asset('assets/images/foodie_logo.png'),

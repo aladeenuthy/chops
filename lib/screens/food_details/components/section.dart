@@ -14,12 +14,12 @@ class Section extends StatelessWidget {
         Text(
           "Delivery info",
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 22),
         ),
         SizedBox(height: 5,),
         Text("Delivered between monday aug and thursday 20 from 8pm to 9:32pm",
             style: TextStyle(
-                fontSize: 17, color: greyColor, fontWeight: FontWeight.bold))
+                fontSize: 16, color: greyColor, fontWeight: FontWeight.bold))
       ]) ,
     );
   }

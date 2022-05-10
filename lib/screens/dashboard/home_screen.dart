@@ -62,18 +62,34 @@ class HomeScreen extends StatelessWidget {
                 ])
               ]),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical:20),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: const[
-                      FoodCard(),
-                      FoodCard(),
-                      FoodCard(),
-                      FoodCard(),
-                    ],
+                child: TabBarView(children: [
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.red,
                   ),
-                ))
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.blue,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.orange,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.purple,
+                  )
+                ],)
+                )
             ],
           ),
         ),

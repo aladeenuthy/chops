@@ -14,6 +14,7 @@ class FoodDetailsScreen extends StatefulWidget {
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   final pageController = PageController();
+  double n = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,17 +37,15 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
               height: 180,
               child: PageView(
-                
                 controller: pageController,
                 children: [
                   Image.asset(
-                    "assets/images/food_1.png", 
+                    "assets/images/food_1.png",
                   ),
                   Image.asset("assets/images/food_2.png"),
                   Image.asset(
@@ -55,7 +54,6 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   Image.asset(
                     "assets/images/food_3.png",
                   ),
-                  
                 ],
               ),
             ),
@@ -65,27 +63,49 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 child: SmoothPageIndicator(
                     controller: pageController, // PageController
                     count: 4,
-                    effect: const JumpingDotEffect(activeDotColor: primaryColor, dotWidth: 15, dotHeight: 10,), // your preferred effect
+                    effect: const JumpingDotEffect(
+                      activeDotColor: primaryColor,
+                      dotWidth: 15,
+                      dotHeight: 10,
+                    ), // your preferred effect
                     onDotClicked: (index) {}),
               ),
             ),
-            const SizedBox(height: 20,),
-            const Center(child: Text("Egg and cucumber sauce", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 28),)),
+            const SizedBox(
+              height: 20,
+            ),
+            const Center(
+                child: Text(
+              "Egg and cucumber sauce",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28),
+            )),
             const Center(
               child: Text("N1900.0",
                   style: TextStyle(
-                    fontSize: 20,
-                      color: primaryColor, fontWeight: FontWeight.bold)),
+                      fontSize: 20,
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(height: 20,),
-            const Section(), 
             const SizedBox(
               height: 20,
             ),
             const Section(),
-            const SizedBox(height: 40,),
-              ElevatedButton(
-              onPressed: () {},
+            const SizedBox(
+              height: 20,
+            ),
+            const Section(),
+            const SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  n += .1;
+                });
+              },
               child: const Text(
                 "Add to cart",
                 style: TextStyle(

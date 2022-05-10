@@ -6,7 +6,8 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      height: 220,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       width: 160,
       child: Stack(
         alignment: Alignment.center,

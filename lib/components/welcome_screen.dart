@@ -38,10 +38,6 @@ class WelcomeScreen extends StatelessWidget {
               child: const Text("Get Started", style: TextStyle(color: primaryColorDark, fontSize: 18, fontWeight: FontWeight.bold),), 
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
-                minimumSize: const Size(double.infinity, 55),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)
-                )
               ),
             )
           ]),
