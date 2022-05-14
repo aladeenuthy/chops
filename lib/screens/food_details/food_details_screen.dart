@@ -7,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   const FoodDetailsScreen({Key? key}) : super(key: key);
+  static const routeName = "/food-details";
 
   @override
   State<FoodDetailsScreen> createState() => _FoodDetailsScreenState();
@@ -20,7 +21,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
             icon: const Icon(
               Icons.arrow_back_ios,
               color: blackColor,

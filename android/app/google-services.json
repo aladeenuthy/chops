@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1074159431695",
+    "project_id": "chops-1a514",
+    "storage_bucket": "chops-1a514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074159431695:android:2728c137b59ebc98f2337a",
+        "android_client_info": {
+          "package_name": "com.example.chops"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074159431695-f6vskgehfghbn9aohnpd3k91nvrg9p2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmMdfCi0fHOGmkd_3Jnes0RL5B_vI7OLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074159431695-f6vskgehfghbn9aohnpd3k91nvrg9p2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
