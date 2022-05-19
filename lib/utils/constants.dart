@@ -13,3 +13,13 @@ const Color redColor = Colors.red;
 const Color transparentColor = Colors.transparent;
 const Color blackAccentColor = Color(0xff393939);
 const Color shadowColor = Color(0xffF96C3B);
+
+const List<String> catgoryNames = ['Food', "Drinks", "Snacks", "Sauce", "Others"];
+const String paystackPublickKey = "pk_test_cad7f29942053a09cda660a8594a909c439389e9";
+
+const List<String> screenNames = [
+    'home',
+    "My Favorities",
+    "My Profile",
+    "History"
+  ];

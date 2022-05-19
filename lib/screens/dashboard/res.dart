@@ -1,7 +1,7 @@
 import 'package:chops/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'home/home_screen.dart';
 
 class Res extends StatefulWidget {
   const Res({Key? key}) : super(key: key);

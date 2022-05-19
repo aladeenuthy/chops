@@ -1,12 +1,16 @@
 import 'dart:math';
 
+import 'package:chops/helpers/cart_helper.dart';
+import 'package:chops/helpers/product_helper.dart';
+import 'package:chops/models/product.dart';
 import 'package:chops/screens/food_details/components/section.dart';
 import 'package:chops/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
-  const FoodDetailsScreen({Key? key}) : super(key: key);
+  final Product product;
+  const FoodDetailsScreen({Key? key, required this.product}) : super(key: key);
   static const routeName = "/food-details";
 
   @override
@@ -14,8 +18,26 @@ class FoodDetailsScreen extends StatefulWidget {
 }
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
+  bool _isFavorite = false;
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.product.isFavorite;
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    if (_isFavorite != widget.product.isFavorite) {
+      ProductHelper.toggleFavorite(
+          widget.product.id, widget.product.isFavorite);
+    }
+    super.dispose();
+  }
+
   final pageController = PageController();
-  double n = 1;
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +52,14 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             )),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.favorite_border,
-                color: blackColor,
+              onPressed: () {
+                setState(() {
+                  _isFavorite = !_isFavorite;
+                });
+              },
+              icon: Icon(
+                _isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: primaryColor,
               ))
         ],
       ),
@@ -44,28 +70,18 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             SizedBox(
               height: 180,
-              child: PageView(
-                controller: pageController,
-                children: [
-                  Image.asset(
-                    "assets/images/food_1.png",
-                  ),
-                  Image.asset("assets/images/food_2.png"),
-                  Image.asset(
-                    "assets/images/food_3.png",
-                  ),
-                  Image.asset(
-                    "assets/images/food_3.png",
-                  ),
-                ],
-              ),
+              child: PageView.builder(
+                  controller: pageController,
+                  itemCount: widget.product.images.length,
+                  itemBuilder: (_, index) =>
+                      Image.network(widget.product.images[index])),
             ),
             Center(
               child: SizedBox(
                 height: 25,
                 child: SmoothPageIndicator(
                     controller: pageController, // PageController
-                    count: 4,
+                    count: widget.product.images.length,
                     effect: const JumpingDotEffect(
                       activeDotColor: primaryColor,
                       dotWidth: 15,
@@ -77,20 +93,66 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Center(
+            Center(
                 child: Text(
-              "Egg and cucumber sauce",
-              style: TextStyle(
+              widget.product.name,
+              style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 28),
             )),
-            const Center(
-              child: Text("N1900.0",
-                  style: TextStyle(
+            Center(
+              child: Text("N${widget.product.price.toStringAsFixed(1)}",
+                  style: const TextStyle(
                       fontSize: 20,
                       color: primaryColor,
                       fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RawMaterialButton(
+                    splashColor: primaryColor,
+                    onPressed: () {
+                      if (quantity == 1) {
+                        return;
+                      }
+                      setState(() {
+                        quantity -= 1;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.remove,
+                      size: 25,
+                      color: primaryColor,
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    shape: const CircleBorder(
+                        side: BorderSide(color: primaryColor, width: 2))),
+                Text(
+                  quantity.toString(),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                RawMaterialButton(
+                    splashColor: primaryColor,
+                    onPressed: () {
+                      setState(() {
+                        quantity += 1;
+                      });
+                    },
+                    child: const Icon(
+                      Icons.add,
+                      size: 25,
+                      color: primaryColor,
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    shape: const CircleBorder(
+                        side: BorderSide(color: primaryColor, width: 2))),
+              ],
             ),
             const SizedBox(
               height: 20,
@@ -105,9 +167,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  n += .1;
-                });
+                CartHelper.addToCart(widget.product, quantity);
               },
               child: const Text(
                 "Add to cart",

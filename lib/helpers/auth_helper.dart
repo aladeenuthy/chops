@@ -1,8 +1,28 @@
+import 'package:chops/models/chop_user.dart';
 import 'package:chops/utils/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthHelper {
+  static Future<void> login(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (err) {
+      showSnackBar(err.toString());
+    } catch (_) {
+      showSnackBar('something went wrong');
+    }
+  }
+
+  static Future<ChopUser> getUserInfo() async {
+    final userInfo = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return ChopUser.fromFirestore(userInfo.data() as Map<String, dynamic>);
+  }
+
   static Future<void> signUp(Map<String, dynamic> userInfo) async {
     try {
       final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -18,6 +38,4 @@ class AuthHelper {
       showSnackBar("something went wrong");
     }
   }
-
-  static Future<void> signIn(String email, String password) async {}
 }

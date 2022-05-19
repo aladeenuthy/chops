@@ -1,15 +1,11 @@
-import 'package:chops/screens/auth/login_screen.dart';
+import 'login_screen.dart';
 import 'package:chops/screens/auth/sigup_screen.dart';
 import 'package:chops/utils/constants.dart';
 import 'package:flutter/material.dart';
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({ Key? key }) : super(key: key);
 
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({Key? key}) : super(key: key);
 
-class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,12 +25,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ],
                   color: whiteColor,
-                  borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(25)
-                  ),
+                  borderRadius:
+                      const BorderRadius.vertical(bottom: Radius.circular(25)),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Expanded(
@@ -44,27 +38,22 @@ class _AuthScreenState extends State<AuthScreen> {
                       indicatorColor: primaryColor,
                       labelColor: Colors.black,
                       tabs: [
-                        Tab(
-                          text: "login"
-                        ),
-                        Tab(
-                          text: 'signup'
-                        ),
-                        
+                        Tab(text: "login"),
+                        Tab(text: 'signup'),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Expanded(
               flex: 4,
               child: TabBarView(
-                children: [
-                  LoginScreen(),
-                  SignupScreen()
-                ],
+                
+                children: [LoginScreen(), SignupScreen()],
               ),
             ),
           ],

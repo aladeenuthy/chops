@@ -1,10 +1,11 @@
 import 'package:chops/helpers/device_helper.dart';
-import 'package:chops/screens/dashboard/favorites_screen.dart';
-import 'package:chops/screens/dashboard/history_screen.dart';
-import 'package:chops/screens/dashboard/home_screen.dart';
-import 'package:chops/screens/dashboard/profile_screen.dart';
-import 'package:chops/screens/food_details/food_details_screen.dart';
+import 'package:chops/screens/cart/cart_screen.dart';
+import 'package:chops/screens/dashboard/favorities/favorites_screen.dart';
+import 'order/order.dart';
+import 'package:chops/screens/dashboard/home/home_screen.dart';
+import 'package:chops/screens/dashboard/profile/profile_screen.dart';
 import 'package:chops/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DashBoard extends StatefulWidget {
@@ -29,26 +30,11 @@ class _DashBoardState extends State<DashBoard> {
       ..scale(0.7);
   }
 
-  List<String> screenNames = const [
-    'home',
-    "My Favorities",
-    "My Profile",
-    "History"
-  ];
   List<Widget> screens = [
-    Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == FoodDetailsScreen.routeName) {
-          return PageRouteBuilder(
-              pageBuilder: (_, __, ___) => FoodDetailsScreen());
-        }
-        return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => HomeScreen());
-      },
-    ),
+    const HomeScreen(),
     const FavoritiesScreen(),
     const ProfileScreen(),
-    const HistoryScreen()
+    const OrderScreen()
   ];
 
   @override
@@ -57,7 +43,7 @@ class _DashBoardState extends State<DashBoard> {
       children: [
         const _Drawer(),
         AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 500),
           height: DeviceHelper.screenHeight,
           width: DeviceHelper.screenWidth,
           transform: _drawerOpen ? _shadowTransform() : Matrix4.identity(),
@@ -84,7 +70,9 @@ class _DashBoardState extends State<DashBoard> {
                       actions: [
                         IconButton(
                             onPressed: () {
-                            
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  pageBuilder: (_, __, ___) =>
+                                      const CartScreen()));
                             },
                             icon: Icon(Icons.shopping_cart_outlined,
                                 color: Colors.black.withOpacity(0.7)))
@@ -119,11 +107,14 @@ class _DashBoardState extends State<DashBoard> {
                           Icons.home,
                         ),
                         label: "",
-                        backgroundColor: bgColor),
+                        backgroundColor: bgColor
+                        ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.favorite_border),
                         label: "",
-                        activeIcon: Icon(Icons.favorite)),
+                        activeIcon: Icon(Icons.favorite),
+                        
+                        ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.person_outline),
                         label: "",
@@ -155,40 +146,44 @@ class _Drawer extends StatelessWidget {
       child: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Spacer(
-                  flex: 2,
-                ),
-                _DrawerTile(
-                  title: "Orders",
-                  icon: Icons.shopping_cart_checkout,
-                ),
-                Divider(color: whiteColor, endIndent: 180, thickness: 1),
-                SizedBox(
-                  height: 10,
-                ),
-                _DrawerTile(
-                  title: "Privacy Policy",
-                  icon: Icons.note,
-                ),
-                Divider(
-                  color: whiteColor,
-                  endIndent: 180,
-                  thickness: 1,
-                ),
-                Spacer(
-                  flex: 2,
-                ),
-                _DrawerTile(
-                  title: "Sign out",
-                  icon: Icons.arrow_forward,
-                ),
-                Spacer(
-                  flex: 3,
-                )
-              ]),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Spacer(
+              flex: 2,
+            ),
+            const _DrawerTile(
+              title: "Security",
+              icon: Icons.security,
+            ),
+            const Divider(color: whiteColor, endIndent: 180, thickness: 1),
+            const SizedBox(
+              height: 10,
+            ),
+            const _DrawerTile(
+              title: "Privacy Policy",
+              icon: Icons.note,
+            ),
+            const Divider(
+              color: whiteColor,
+              endIndent: 180,
+              thickness: 1,
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            GestureDetector(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: const _DrawerTile(
+                title: "Sign out",
+                icon: Icons.arrow_forward,
+              ),
+            ),
+            const Spacer(
+              flex: 3,
+            )
+          ]),
         ),
       ),
     );
