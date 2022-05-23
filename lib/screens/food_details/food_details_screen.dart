@@ -157,11 +157,17 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Section(),
+            const Section(
+              title: 'Delivery info',
+              body: 'Delivered between monday and thursday from 8am to 11pm',
+            ),
             const SizedBox(
               height: 20,
             ),
-            const Section(),
+            const Section(
+              title: 'Return policy',
+              body: 'All our food are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately',
+            ),
             const SizedBox(
               height: 40,
             ),

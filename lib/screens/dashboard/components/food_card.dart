@@ -32,7 +32,7 @@ class FoodCard extends StatelessWidget {
                     Text(
                       product.name,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 17),
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     const SizedBox(
                       height: 10,

@@ -58,24 +58,23 @@ class CartScreen extends StatelessWidget {
                       Expanded(
                           child: ListView.builder(
                         itemBuilder: (_, index) => CartTile(
-                            cartItem: snapshot.data!.docs[index].data()),
+                            cartItem: snapshot.data!.docs[index].data(),dismiss: true,),
                         itemCount: snapshot.data!.size,
                       ))
                     ],
                   ),
                 );
               }
-              return const Center(
-                child: Text(
-                  "cart empty",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              );
-            } else if (!snapshot.hasData) {
-              return const Center(
-                child: Text(
-                  "cart empty",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                return SizedBox.expand(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/no_orders.png'),
+                    const Text(
+                      "cart empty",
+                      style: TextStyle(fontSize: 20),
+                    )
+                  ],
                 ),
               );
             }

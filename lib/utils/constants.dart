@@ -21,5 +21,5 @@ const List<String> screenNames = [
     'home',
     "My Favorities",
     "My Profile",
-    "History"
+    "Orders"
   ];

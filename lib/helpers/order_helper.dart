@@ -10,7 +10,16 @@ class OrderHelper {
   static Stream<QuerySnapshot<OrderItem>> getOrders() {
     return FirebaseFirestore.instance
         .collection('orders')
-        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid).orderBy('date', descending: true).withConverter<OrderItem>(fromFirestore: (snapshot,_) => OrderItem.fromFirestore(snapshot.data() as Map<String, dynamic>, snapshot.id), toFirestore:(_, __) => {})
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .orderBy('date', descending: true)
+        .withConverter<OrderItem>(
+            fromFirestore: (snapshot, _) => OrderItem.fromFirestore(
+                snapshot.data() as Map<String, dynamic>, snapshot.id),
+            toFirestore: (_, __) => {})
         .snapshots();
+  }
+
+  static Future<void> deleteOrder(OrderItem order) {
+    return FirebaseFirestore.instance.collection('orders').doc(order.id).delete();
   }
 }

@@ -36,10 +36,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Information",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(
                       height: 15,
@@ -65,9 +64,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Text(
                                   snapshot.data!.fullName,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 const SizedBox(
                                   height: 3,
@@ -75,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Text(
                                   snapshot.data!.email,
                                   style: const TextStyle(
-                                      fontSize: 16, color: greyColor),
+                                      fontSize: 17, color: greyColor),
                                 ),
                                 const SizedBox(
                                   height: 3,
@@ -96,10 +94,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       height: 15,
                     ),
-                    const Text(
+                    Text(
                       "Payment method",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(
                       height: 15,

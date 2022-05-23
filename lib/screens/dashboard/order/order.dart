@@ -1,5 +1,6 @@
 import 'package:chops/helpers/order_helper.dart';
 import 'package:chops/models/order_item.dart';
+import 'package:chops/screens/dashboard/order/view_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,10 @@ class OrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Orders', style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+      ),
       body: StreamBuilder<QuerySnapshot<OrderItem>>(
           stream: OrderHelper.getOrders(),
           builder: (context, snapshot) {
@@ -23,25 +28,27 @@ class OrderScreen extends StatelessWidget {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   itemCount: snapshot.data!.size,
-                  itemBuilder: (_, index) =>
-                      OrderTIle(order: snapshot.data!.docs[index].data()),
+                  itemBuilder: (_, index) => GestureDetector(
+                      onTap: () => Navigator.of(context).pushNamed(
+                          ViewOrder.routeName,
+                          arguments: snapshot.data!.docs[index].data()),
+                      child:
+                          OrderTIle(order: snapshot.data!.docs[index].data())),
                 );
               }
-              return SizedBox(
-                width: double.infinity,
+              return SizedBox.expand(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/no_history.png'),
+                    Image.asset('assets/images/no_orders.png'),
                     const Text(
-                      "No history yet",
+                      "No orders yet",
                       style: TextStyle(fontSize: 20),
                     )
                   ],
                 ),
               );
             }
-           
             return Container();
           }),
     );
@@ -55,7 +62,9 @@ class OrderTIle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      onDismissed: (dir) {},
+      onDismissed: (dir) {
+        OrderHelper.deleteOrder(order);
+      },
       direction: DismissDirection.endToStart,
       key: ValueKey(order.id),
       background: Container(

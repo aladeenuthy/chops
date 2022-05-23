@@ -4,8 +4,9 @@ import 'package:chops/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CartTile extends StatelessWidget {
+  final bool dismiss;
   final CartItem cartItem;
-  const CartTile({Key? key, required this.cartItem}) : super(key: key);
+  const CartTile({Key? key, required this.cartItem, required this.dismiss}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class CartTile extends StatelessWidget {
       onDismissed: (dir) {
         CartHelper.removeItemFromCart(cartItem.id);
       },
-      direction: DismissDirection.endToStart,
+      direction: dismiss ?  DismissDirection.endToStart : DismissDirection.none,
       key: ValueKey(cartItem.id),
       background: Container(
           margin: const EdgeInsets.only(bottom: 10),

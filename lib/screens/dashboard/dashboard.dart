@@ -1,6 +1,8 @@
 import 'package:chops/helpers/device_helper.dart';
+import 'package:chops/models/order_item.dart';
 import 'package:chops/screens/cart/cart_screen.dart';
 import 'package:chops/screens/dashboard/favorities/favorites_screen.dart';
+import 'package:chops/screens/dashboard/order/view_order.dart';
 import 'order/order.dart';
 import 'package:chops/screens/dashboard/home/home_screen.dart';
 import 'package:chops/screens/dashboard/profile/profile_screen.dart';
@@ -34,7 +36,17 @@ class _DashBoardState extends State<DashBoard> {
     const HomeScreen(),
     const FavoritiesScreen(),
     const ProfileScreen(),
-    const OrderScreen()
+    Navigator(
+      onGenerateRoute: (settings) {
+        if (settings.name == ViewOrder.routeName) {
+          final orderItem = settings.arguments as OrderItem;
+          return PageRouteBuilder(
+              pageBuilder: (_, __, ___) => ViewOrder(orderItem: orderItem));
+        }
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const OrderScreen());
+      },
+    )
   ];
 
   @override
@@ -78,11 +90,11 @@ class _DashBoardState extends State<DashBoard> {
                                 color: Colors.black.withOpacity(0.7)))
                       ],
                     )
-                  : AppBar(
+                  : screenNames[_currentIndex] != 'Orders' ?AppBar(
                       title: Text(screenNames[_currentIndex],
                           style: const TextStyle(color: Colors.black)),
                       centerTitle: true,
-                    ),
+                    ): null,
               resizeToAvoidBottomInset: false,
               body: AbsorbPointer(
                 absorbing: _drawerOpen,
@@ -107,14 +119,12 @@ class _DashBoardState extends State<DashBoard> {
                           Icons.home,
                         ),
                         label: "",
-                        backgroundColor: bgColor
-                        ),
+                        backgroundColor: bgColor),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.favorite_border),
-                        label: "",
-                        activeIcon: Icon(Icons.favorite),
-                        
-                        ),
+                      icon: Icon(Icons.favorite_border),
+                      label: "",
+                      activeIcon: Icon(Icons.favorite),
+                    ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.person_outline),
                         label: "",
@@ -140,8 +150,6 @@ class _Drawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      textStyle: const TextStyle(
-          color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
       color: primaryColor,
       child: SafeArea(
         child: Container(
@@ -209,9 +217,7 @@ class _DrawerTile extends StatelessWidget {
         ),
         Text(title,
             style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
+                color: whiteColor, fontSize: 18, fontWeight: FontWeight.bold)),
       ],
     );
   }

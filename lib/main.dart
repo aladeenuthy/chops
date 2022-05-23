@@ -1,3 +1,5 @@
+import 'package:chops/components/splash_screen.dart';
+import 'package:chops/config/theme.dart';
 import 'package:chops/helpers/key_helper.dart';
 import 'package:chops/models/product.dart';
 import 'package:chops/screens/auth/auth_screen.dart';
@@ -25,34 +27,14 @@ class MyApp extends StatelessWidget {
       scaffoldMessengerKey: KeyHelper.scafKey,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-              primary: primaryColor,
-              textStyle: const TextStyle(color: primaryColor)
-        )),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                  primary: primaryColor,
-                  minimumSize: const Size(double.infinity, 53),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)))),
-          primaryColor: primaryColor,
-          appBarTheme: ThemeData.light()
-              .appBarTheme
-              .copyWith(backgroundColor: bgColor, elevation: 0),
-          scaffoldBackgroundColor: bgColor,
-          colorScheme: ThemeData().colorScheme.copyWith(primary: greyColor),
-          inputDecorationTheme: const InputDecorationTheme(
-              hintStyle: TextStyle(
-                  color: greyColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 19))),
+      theme: theme(),
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return const DashBoard();
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
           } else {
             return const AuthScreen();
           }
@@ -62,7 +44,9 @@ class MyApp extends StatelessWidget {
         if (settings.name == FoodDetailsScreen.routeName) {
           final Product product = settings.arguments as Product;
           return PageRouteBuilder(
-              pageBuilder: (_, __, ___) => FoodDetailsScreen(product: product,));
+              pageBuilder: (_, __, ___) => FoodDetailsScreen(
+                    product: product,
+                  ));
         }
         return PageRouteBuilder(pageBuilder: (_, __, ___) => const DashBoard());
       },

@@ -16,12 +16,10 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const SizedBox(
+                  SizedBox(
                     width: 200,
-                    child:Text("Delicious food for you",
-                        style: TextStyle(
-                          fontSize: 35,
-                        )),
+                    child: Text("Delicious food for you",
+                        style: Theme.of(context).textTheme.headlineLarge),
                   ),
                   const SizedBox(
                     height: 10,
