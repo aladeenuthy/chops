@@ -1,8 +1,6 @@
 import 'package:chops/helpers/device_helper.dart';
-import 'package:chops/models/order_item.dart';
 import 'package:chops/screens/cart/cart_screen.dart';
 import 'package:chops/screens/dashboard/favorities/favorites_screen.dart';
-import 'package:chops/screens/dashboard/order/view_order.dart';
 import 'order/order.dart';
 import 'package:chops/screens/dashboard/home/home_screen.dart';
 import 'package:chops/screens/dashboard/profile/profile_screen.dart';
@@ -20,6 +18,27 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   var _currentIndex = 0;
   var _drawerOpen = false;
+  AppBar _appBar() {
+    return AppBar(
+      leading: IconButton(
+          onPressed: () {
+            setState(() {
+              _drawerOpen = !_drawerOpen;
+            });
+          },
+          icon: Image.asset('assets/images/menu.png')),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).push(PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => const CartScreen()));
+            },
+            icon: Icon(Icons.shopping_cart_outlined,
+                color: Colors.black.withOpacity(0.7)))
+      ],
+    );
+  }
+
   Matrix4 _shadowTransform() {
     return Matrix4.identity()
       ..translate(180.2, 120.3)
@@ -36,17 +55,7 @@ class _DashBoardState extends State<DashBoard> {
     const HomeScreen(),
     const FavoritiesScreen(),
     const ProfileScreen(),
-    Navigator(
-      onGenerateRoute: (settings) {
-        if (settings.name == ViewOrder.routeName) {
-          final orderItem = settings.arguments as OrderItem;
-          return PageRouteBuilder(
-              pageBuilder: (_, __, ___) => ViewOrder(orderItem: orderItem));
-        }
-        return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const OrderScreen());
-      },
-    )
+    const OrderScreen()
   ];
 
   @override
@@ -71,30 +80,13 @@ class _DashBoardState extends State<DashBoard> {
             borderRadius: BorderRadius.circular(_drawerOpen ? 20 : 0),
             child: Scaffold(
               appBar: _currentIndex == 0
-                  ? AppBar(
-                      leading: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _drawerOpen = !_drawerOpen;
-                            });
-                          },
-                          icon: Image.asset('assets/images/menu.png')),
-                      actions: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  pageBuilder: (_, __, ___) =>
-                                      const CartScreen()));
-                            },
-                            icon: Icon(Icons.shopping_cart_outlined,
-                                color: Colors.black.withOpacity(0.7)))
-                      ],
-                    )
-                  : screenNames[_currentIndex] != 'Orders' ?AppBar(
-                      title: Text(screenNames[_currentIndex],
-                          style: const TextStyle(color: Colors.black)),
-                      centerTitle: true,
-                    ): null,
+                  ? _appBar()
+                  : AppBar(
+                          title: Text(screenNames[_currentIndex],
+                              style: const TextStyle(color: Colors.black)),
+                          centerTitle: true,
+                        )
+                    ,
               resizeToAvoidBottomInset: false,
               body: AbsorbPointer(
                 absorbing: _drawerOpen,

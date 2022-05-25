@@ -28,7 +28,10 @@ class FavoritiesScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.builder(
                     itemBuilder: (context, index) =>
-                        FoodCard(product: snapshot.data!.docs[index].data()),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          child: FoodCard(product: snapshot.data!.docs[index].data()),
+                        ),
                     itemCount: snapshot.data!.size,
                   ));
             }

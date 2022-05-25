@@ -1,9 +1,8 @@
 import 'package:chops/helpers/order_helper.dart';
 import 'package:chops/models/order_item.dart';
-import 'package:chops/screens/dashboard/order/view_order.dart';
+import 'package:chops/screens/cart/components/cart_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../../../utils/constants.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -11,12 +10,7 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Orders', style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-      ),
-      body: StreamBuilder<QuerySnapshot<OrderItem>>(
+    return  StreamBuilder<QuerySnapshot<OrderItem>>(
           stream: OrderHelper.getOrders(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -28,12 +22,7 @@ class OrderScreen extends StatelessWidget {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   itemCount: snapshot.data!.size,
-                  itemBuilder: (_, index) => GestureDetector(
-                      onTap: () => Navigator.of(context).pushNamed(
-                          ViewOrder.routeName,
-                          arguments: snapshot.data!.docs[index].data()),
-                      child:
-                          OrderTIle(order: snapshot.data!.docs[index].data())),
+                  itemBuilder: (_, index) => OrderTIle(order: snapshot.data!.docs[index].data()),
                 );
               }
               return SizedBox.expand(
@@ -50,8 +39,7 @@ class OrderScreen extends StatelessWidget {
               );
             }
             return Container();
-          }),
-    );
+          });
   }
 }
 
@@ -77,18 +65,28 @@ class OrderTIle extends StatelessWidget {
             Icons.remove,
             color: Colors.white,
           )),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20)),
-        child: ListTile(
-          title: Text(order.formatedDate),
-          subtitle: Text(
-            order.state,
-            style: const TextStyle(color: primaryColor, fontSize: 15),
+      child: Column(
+        children: [
+          ExpansionTile(
+            key:  PageStorageKey<String>(order.id),    
+            title: Text("N${order.total.toStringAsFixed(1)}"),
+            leading:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 13,),
+                Text(order.formatedDate),
+                Text(
+                order.state,
+                style: const TextStyle(color: primaryColor, fontSize: 15),
+              ),
+            
+              ],
+            ),
+            children: order.cartItems.map((cartItem) => CartTile(cartItem: cartItem, dismiss: false)).toList(),
           ),
-          trailing: Text("N${order.total.toStringAsFixed(1)}"),
-        ),
+          const Divider(),
+        ],
       ),
     );
   }

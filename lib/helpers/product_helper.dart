@@ -3,6 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductHelper {
+static Stream<QuerySnapshot<Product>> search(String text) {
+    return FirebaseFirestore.instance
+        .collection('products')
+        .where("name", isGreaterThanOrEqualTo: text)
+        .where("name", isLessThanOrEqualTo: "$text\uf7ff")
+        .withConverter<Product>(
+            fromFirestore: (snapshot, _) {
+              return Product.fromFirestore(
+                  snapshot.data() as Map<String, dynamic>, snapshot.id, true);
+            },
+            toFirestore: (_, __) => {})
+        .snapshots();
+  }
   static Future<void> toggleFavorite(String productId, bool isFavorite) async {
     FirebaseFirestore.instance
         .collection(

@@ -11,47 +11,49 @@ class FoodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(FoodDetailsScreen.routeName, arguments: product),
-      child: Container(
-        height: 220,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        width: 160,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                height: 200,
-                width: 160,
-                decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(40)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children:  [
-                    Text(
-                      product.name,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text("N${product.price.toStringAsFixed(1)}",
-                        style: const TextStyle(
-                            color: primaryColor, fontWeight: FontWeight.bold))
-                  ],
+      child: Align(
+        child: Container(
+          height: 230,
+          margin: const EdgeInsets.symmetric(horizontal: 10, ),
+          width: 160,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  height: 200,
+                  width: 160,
+                  decoration: BoxDecoration(
+                      color: Colors.white, borderRadius: BorderRadius.circular(40)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children:  [
+                      Text(
+                        product.name,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text("N${product.price.toStringAsFixed(1)}",
+                          style: const TextStyle(
+                              color: primaryColor, fontWeight: FontWeight.bold))
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
+              Positioned(
                 top: 0,
-                child: Image.network(
-                  product.images[0],
-                  height: 160,
-                  width: 160,
-                ))
-          ],
+                  child: Image.network(
+                    product.images[0],
+                    height: 150,
+                    width: 160,
+                  ))
+            ],
+          ),
         ),
       ),
     );

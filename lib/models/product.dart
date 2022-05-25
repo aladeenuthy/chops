@@ -12,7 +12,8 @@ class Product {
       required this.images,
       required this.isFavorite,
       required this.category});
-  factory Product.fromFirestore(Map<String, dynamic> data, String id, bool isFavorite) {
+  factory Product.fromFirestore(
+      Map<String, dynamic> data, String id, bool isFavorite) {
     final int price = data['price'];
     return Product(
         id: id,

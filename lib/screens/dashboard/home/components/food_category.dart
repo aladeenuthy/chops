@@ -23,6 +23,7 @@ class FoodCategory extends StatelessWidget {
             );
           } else if (snapshot.hasData) {
             return ListView.builder(
+              key: PageStorageKey<String>(categoryName),
               itemCount: snapshot.data!.size,
               scrollDirection: Axis.horizontal,
               itemBuilder: (_, index) {
