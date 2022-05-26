@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthHelper {
+  static final _auth = FirebaseAuth.instance;
   static Future<void> login(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (err) {
       showSnackBar(err.toString());
     } catch (_) {
@@ -25,7 +25,7 @@ class AuthHelper {
 
   static Future<void> signUp(Map<String, dynamic> userInfo) async {
     try {
-      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final user = await _auth.createUserWithEmailAndPassword(
           email: userInfo['email'], password: userInfo['password']);
       userInfo.remove('password');
       await FirebaseFirestore.instance

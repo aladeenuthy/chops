@@ -3,13 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class OrderHelper {
+  static final _accessToDB = FirebaseFirestore.instance.collection("orders");
   static Future<void> addOrder(Map<String, dynamic> data) async {
-    await FirebaseFirestore.instance.collection('orders').add(data);
+    await _accessToDB.add(data);
   }
 
   static Stream<QuerySnapshot<OrderItem>> getOrders() {
-    return FirebaseFirestore.instance
-        .collection('orders')
+    return _accessToDB
         .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .orderBy('date', descending: true)
         .withConverter<OrderItem>(
@@ -20,6 +20,8 @@ class OrderHelper {
   }
 
   static Future<void> deleteOrder(OrderItem order) {
-    return FirebaseFirestore.instance.collection('orders').doc(order.id).delete();
+    return _accessToDB
+        .doc(order.id)
+        .delete();
   }
 }

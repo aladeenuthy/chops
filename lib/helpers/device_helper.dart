@@ -11,7 +11,7 @@ class DeviceHelper {
     return MediaQuery.of(KeyHelper.appNavKey.currentContext!).size.width;
   }
 
-  static double get calcScreenHeight {
+  static double get availableScreenHeight {
     return screenHeight -
         (MediaQuery.of(KeyHelper.appNavKey.currentContext!).padding.top +
         kToolbarHeight ) - kBottomNavigationBarHeight;

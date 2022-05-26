@@ -2,6 +2,7 @@ import 'package:chops/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../helpers/key_helper.dart';
+
 void showLoadingSpinner() {
   AlertDialog alert = AlertDialog(
     content: Row(
@@ -21,6 +22,10 @@ void showLoadingSpinner() {
   );
 }
 
+String capitalizeText(String text) {
+  return text.isEmpty ? "" : text[0].toUpperCase() + text.substring(1);
+}
+
 void showSnackBar(String message, [bool error = true]) {
   KeyHelper.scafKey.currentState!.showSnackBar(SnackBar(
     content: Text(message),
@@ -28,15 +33,9 @@ void showSnackBar(String message, [bool error = true]) {
   ));
 }
 
-Widget inputField(
-  String hintText,
-  String? Function(String?) validator,
-  TextEditingController? controller,
-  {
-  TextInputType inputType = TextInputType.text,
-  bool obscureText = false
-}
-) {
+Widget inputField(String hintText, String? Function(String?) validator,
+    TextEditingController? controller,
+    {TextInputType inputType = TextInputType.text, bool obscureText = false}) {
   return TextFormField(
     validator: validator,
     keyboardType: inputType,

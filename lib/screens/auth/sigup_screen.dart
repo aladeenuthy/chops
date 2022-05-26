@@ -45,6 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      key: const PageStorageKey<String>('signup'),
       child: Padding(
         padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -55,7 +56,9 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Form(
             key: _formKey,
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(
+                  
+                  crossAxisAlignment: CrossAxisAlignment.start, children: [
               InputField(
                 labelText: "Full name",
                 controller: _nameController,

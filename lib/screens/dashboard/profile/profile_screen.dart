@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 15,
                     ),
                     Text(
-                      "Payment method",
+                      "Cards",
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(

@@ -12,6 +12,64 @@ import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:flutter/material.dart';
 
 class CartHelper {
+  static final _accessToDB = FirebaseFirestore.instance.collection('cart');
+  static Future<void> addToCart(Product product, int quantity) async {
+    final cartItem = await _accessToDB
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('cartItems')
+        .doc(product.id)
+        .get();
+    if (cartItem.exists) {
+      showSnackBar("item already in cart");
+    } else {
+      await _accessToDB
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('cartItems')
+          .doc(product.id)
+          .set({
+        'name': product.name,
+        'image': product.images[0],
+        'price': product.price,
+        'quantity': quantity,
+        'date': Timestamp.now()
+      });
+      showSnackBar('item added to cart', false);
+    }
+  }
+
+  static Future<void> removeItemFromCart(String cartId) async {
+    await _accessToDB
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('cartItems')
+        .doc(cartId)
+        .delete();
+    showSnackBar('item removed from cart', false);
+  }
+
+  static Stream<QuerySnapshot<CartItem>> getCartItems() {
+    return _accessToDB
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('cartItems')
+        .orderBy('date', descending: true)
+        .withConverter(
+            fromFirestore: (snapshot, _) => CartItem.fromFirestore(
+                snapshot.data() as Map<String, dynamic>, snapshot.id),
+            toFirestore: (_, __) => {})
+        .snapshots();
+  }
+
+  static Future<void> clearCart() async {
+    final batch = FirebaseFirestore.instance.batch();
+    var snapshots = await _accessToDB
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('cartItems')
+        .get();
+    for (var doc in snapshots.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
+
   static Future<void> makePayment(
       double total, List<Map<String, dynamic>> cartItems) async {
     final plugin = PaystackPlugin();
@@ -40,68 +98,6 @@ class CartHelper {
       OrderHelper.addOrder(data);
       return;
     }
-  }
-
-  static Future<void> clearCart() async {
-    final batch = FirebaseFirestore.instance.batch();
-    var snapshots = await FirebaseFirestore.instance
-        .collection('cart')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('cartItems')
-        .get();
-    for (var doc in snapshots.docs) {
-      batch.delete(doc.reference);
-    }
-    await batch.commit();
-  }
-
-  static Future<void> addToCart(Product product, int quantity) async {
-    final cartItem = await FirebaseFirestore.instance
-        .collection('cart')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('cartItems')
-        .doc(product.id)
-        .get();
-    if (cartItem.exists) {
-      showSnackBar("item already in cart");
-    } else {
-      await FirebaseFirestore.instance
-          .collection('cart')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('cartItems')
-          .doc(product.id)
-          .set({
-        'name': product.name,
-        'image': product.images[0],
-        'price': product.price,
-        'quantity': quantity,
-        'date': Timestamp.now()
-      });
-      showSnackBar('item added to cart', false);
-    }
-  }
-
-  static Future<void> removeItemFromCart(String cartId) async {
-    await FirebaseFirestore.instance
-        .collection('cart')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('cartItems')
-        .doc(cartId)
-        .delete();
-    showSnackBar('item removed from cart', false);
-  }
-
-  static Stream<QuerySnapshot<CartItem>> getCartItems() {
-    return FirebaseFirestore.instance
-        .collection('cart')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('cartItems')
-        .orderBy('date', descending: true)
-        .withConverter(
-            fromFirestore: (snapshot, _) => CartItem.fromFirestore(
-                snapshot.data() as Map<String, dynamic>, snapshot.id),
-            toFirestore: (_, __) => {})
-        .snapshots();
   }
 }
 

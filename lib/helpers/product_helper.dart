@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductHelper {
-static Stream<QuerySnapshot<Product>> search(String text) {
-    return FirebaseFirestore.instance
-        .collection('products')
+  static final _accessToDB = FirebaseFirestore.instance.collection('products');
+  static Stream<QuerySnapshot<Product>> search(String text) {
+    return _accessToDB
         .where("name", isGreaterThanOrEqualTo: text)
         .where("name", isLessThanOrEqualTo: "$text\uf7ff")
         .withConverter<Product>(
@@ -16,32 +16,31 @@ static Stream<QuerySnapshot<Product>> search(String text) {
             toFirestore: (_, __) => {})
         .snapshots();
   }
+
   static Future<void> toggleFavorite(String productId, bool isFavorite) async {
-    FirebaseFirestore.instance
-        .collection(
-            'products')
-        .doc(productId)
-        .update({
-          'usersFavorited': isFavorite ? FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid] ): FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-        });
+    _accessToDB.doc(productId).update({
+      'usersFavorited': isFavorite
+          ? FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+          : FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+    });
   }
+
   static Stream<QuerySnapshot<Product>> getFavorites() {
     return FirebaseFirestore.instance
         .collection('products')
-        .where('usersFavorited', arrayContains: FirebaseAuth.instance.currentUser!.uid)
+        .where('usersFavorited',
+            arrayContains: FirebaseAuth.instance.currentUser!.uid)
         .withConverter<Product>(
             fromFirestore: (snapshot, _) {
               return Product.fromFirestore(
-                  snapshot.data() as Map<String, dynamic>,
-                  snapshot.id,
-                  true);
+                  snapshot.data() as Map<String, dynamic>, snapshot.id, true);
             },
             toFirestore: (_, __) => {})
         .snapshots();
   }
+
   static Stream<QuerySnapshot<Product>> getProductByCategory(String category) {
-    return FirebaseFirestore.instance
-        .collection('products')
+    return _accessToDB
         .where('category', isEqualTo: category)
         .orderBy('date', descending: true)
         .withConverter<Product>(
@@ -50,7 +49,8 @@ static Stream<QuerySnapshot<Product>> search(String text) {
               return Product.fromFirestore(
                   snapshot.data() as Map<String, dynamic>,
                   snapshot.id,
-                  usersFavorited.contains(FirebaseAuth.instance.currentUser!.uid));
+                  usersFavorited
+                      .contains(FirebaseAuth.instance.currentUser!.uid));
             },
             toFirestore: (_, __) => {})
         .snapshots();
