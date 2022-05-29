@@ -71,6 +71,7 @@ flutter:
     - assets/images/bg_splash.png
     - assets/images/foodie_logo.png
     - assets/images/menu.png
+    - assets/images/card.png
     - assets/images/shopping_cart.png
     - assets/images/food_1.png
     - assets/images/food_2.png

@@ -13,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final Future<ChopUser> _future;
+  var groupValue = 0;
   @override
   void initState() {
     super.initState();
@@ -101,6 +102,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       height: 15,
                     ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        children: const[
+                        _CardTile(groupValue: "ii"),
+                        _CardTile(groupValue: "ii")
+                      ]),
+                    )
                   ],
                 ),
               );
@@ -109,6 +121,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
             return Container();
           }),
+    );
+  }
+}
+
+class _CardTile extends StatelessWidget {
+  final String groupValue;
+  const _CardTile({Key? key, required this.groupValue}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: greyColor))
+      ),
+      padding: const EdgeInsets.symmetric( vertical: 12),
+      child: Row(children: [
+        Radio(
+            activeColor: primaryColor,
+            value: 1,
+            groupValue: groupValue,
+            onChanged: (val) {
+            
+            }),
+        const SizedBox(width: 10,),
+        Container(
+          decoration: BoxDecoration(
+            color: primaryColor,
+            borderRadius: BorderRadius.circular(10)
+          ),
+          child: Image.asset('assets/images/card.png', width: 40, height: 40,)),
+        const SizedBox(width: 7,),
+        const Text("506xxxxxxxxx")
+      ]),
     );
   }
 }

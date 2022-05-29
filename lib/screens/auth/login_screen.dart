@@ -16,7 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   void login() async {
-    print('in here');
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       return;
     }
@@ -34,6 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
@@ -43,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
             right: 20),
         child: AbsorbPointer(
           absorbing: isLoading,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             InputField(
               labelText: "Email address",
               controller: _emailController,

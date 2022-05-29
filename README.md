@@ -1,16 +1,15 @@
-# chops
+![Alt text](assets/screenshots/signup.png?raw=true )
+![Alt text](assets/screenshots/login.png?raw=true )
 
-A new Flutter project.
+![Alt text](assets/screenshots/home.png?raw=true)
+![Alt text](assets/screenshots/dashboard.png?raw=true )
 
-## Getting Started
+![Alt text](assets/screenshots/favorities.png?raw=true )
+![Alt text](assets/screenshots/view_food.png?raw=true )
+![Alt text](assets/screenshots/search.png?raw=true)
 
-This project is a starting point for a Flutter application.
+![Alt text](assets/screenshots/cart.png?raw=true )
+![Alt text](assets/screenshots/paystack.png?raw=true )
 
-A few resources to get you started if this is your first Flutter project:
+![Alt text](assets/screenshots/orders.png?raw=true )
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

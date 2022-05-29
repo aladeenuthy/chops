@@ -1,5 +1,4 @@
 import 'package:chops/helpers/key_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DeviceHelper {

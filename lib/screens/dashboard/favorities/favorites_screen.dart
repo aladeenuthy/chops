@@ -1,6 +1,5 @@
 import 'package:chops/helpers/product_helper.dart';
 import 'package:chops/models/product.dart';
-import 'package:chops/screens/food_details/food_details_screen.dart';
 import 'package:chops/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

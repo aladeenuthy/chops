@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:chops/helpers/cart_helper.dart';
 import 'package:chops/models/cart_item.dart';
 import 'package:chops/screens/cart/components/cart_tile.dart';
 import 'package:chops/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 

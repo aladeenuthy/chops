@@ -43,6 +43,16 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _addressController.dispose();
+    _phoneController.dispose();
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       key: const PageStorageKey<String>('signup'),
@@ -56,9 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Form(
             key: _formKey,
             child:
-                Column(
-                  
-                  crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               InputField(
                 labelText: "Full name",
                 controller: _nameController,
@@ -106,13 +114,17 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: signUp,
-                child: _isLoading ? const CircularProgressIndicator(color: whiteColor,) : const Text(
-                  "Sign up",
-                  style: TextStyle(
-                    color: whiteColor,
-                    fontSize: 18,
-                  ),
-                ),
+                child: _isLoading
+                    ? const CircularProgressIndicator(
+                        color: whiteColor,
+                      )
+                    : const Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 18,
+                        ),
+                      ),
               ),
               const SizedBox(height: 10),
             ]),

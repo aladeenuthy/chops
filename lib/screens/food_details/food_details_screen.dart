@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:chops/helpers/cart_helper.dart';
 import 'package:chops/helpers/product_helper.dart';
 import 'package:chops/models/product.dart';
